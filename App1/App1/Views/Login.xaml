@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App1.Views.Login">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Sign up"
+                VerticalOptions="Start" 
+                HorizontalOptions="CenterAndExpand" Margin="0,80,0,20" />
+            <BoxView  
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"
+                HeightRequest="1"
+                Color="Gray" Margin="25,0,25,20"/>
+            <Button Text="Login with Instagram"
+                    Clicked="Button_Clicked"
+                    VerticalOptions="Start"
+                    HorizontalOptions="CenterAndExpand"></Button>
+            <Button Text="Login with Facebook"
+                    Clicked="Button_Clicked"
+                    VerticalOptions="Start"
+                    HorizontalOptions="CenterAndExpand"></Button>
+            <Label Text="Or"
+                VerticalOptions="Start" 
+                HorizontalOptions="CenterAndExpand" Margin="0,20,0,20" />
+            <Button Text="Login with Gmail"
+                    Clicked="Button_Clicked"
+                    VerticalOptions="Start"
+                    HorizontalOptions="CenterAndExpand"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
