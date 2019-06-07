@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 using App1.Models;
-using App1.Views;
 using App1.ViewModels;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
@@ -30,11 +26,11 @@ namespace App1.Views
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as Item;
-            if (item == null)
+            var location = args.SelectedItem as Location;
+            if (location == null)
                 return;
 
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
+            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(location)));
 
             // Manually deselect item.
             ItemsListView.SelectedItem = null;
@@ -47,24 +43,25 @@ namespace App1.Views
 
         protected override async void OnAppearing()
         {
-            base.OnAppearing();
-
             if (viewModel.Items.Count == 0)
                 viewModel.LoadItemsCommand.Execute(null);
-
 
             try
             {
                 var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+                var permissions = new Dictionary<Permission, PermissionStatus>();
+
                 if (status != PermissionStatus.Granted)
                 {
-                    if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location))
+                    try
                     {
-                        await DisplayAlert("Need location", "Gunna need that location", "OK");
+                        permissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+                        permissions.TryGetValue(Permission.Location, out status);
                     }
-
-                    var permissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
-                    status = permissions.FirstOrDefault(x => x.Key == Permission.Location).Value;
+                    catch (Exception ex)
+                    {
+                        status = permissions.FirstOrDefault(x => x.Key == Permission.Location).Value;
+                    }
                 }
 
                 if (status == PermissionStatus.Granted)
@@ -77,36 +74,38 @@ namespace App1.Views
 
                     MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMiles(3)));
 
-                    var heybeliTennisClubPosition = new Position(40.871517, 29.089059); // Latitude, Longitude
-                    var heybeliTennisClubPin = new Pin
+                    foreach(var locationItem in viewModel.Items)
                     {
-                        Type = PinType.Place,
-                        Position = heybeliTennisClubPosition,
-                        Label = "Heybeli Tennis Club",
-                        Address = "Heybeli Tennis Club Detail Info"
-                    };
+                        locationItem.Pin.Clicked += NavigateToLocation;
+                        MyMap.Pins.Add(locationItem.Pin);
+                    }
 
-                    var kinaliTennisClubPosition = new Position(40.906027, 29.048176); // Latitude, Longitude
-                    var kinaliTennisClubPin = new Pin
-                    {
-                        Type = PinType.Place,
-                        Position = kinaliTennisClubPosition,
-                        Label = "Kınalı Tennis Club",
-                        Address = "Kınalı Tennis Club Detail Info"
-                    };
+                    MyMap.IsShowingUser = true;
 
-                    MyMap.Pins.Add(heybeliTennisClubPin);
-                    MyMap.Pins.Add(kinaliTennisClubPin);
+                    base.OnAppearing();
+
+                }
+                else if(status == PermissionStatus.Denied)
+                {
+                    await DisplayAlert("Need location", "Gunna need that location", "OK");
                 }
                 else if (status != PermissionStatus.Unknown)
                 {
                     //location denied
                 }
+
             }
             catch (Exception ex)
             {
                 //Something went wrong
             }
+        }
+
+        private async void NavigateToLocation(object sender, EventArgs e)
+        {
+            var pin = sender as Pin;
+            var location = viewModel.Items.FirstOrDefault(x => x.Id == pin.ClassId.ToString());
+            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(location)));
         }
     }
 }

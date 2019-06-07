@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.App1" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="27" />
 	<application android:label="App1.Android">
-		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyDMGJR5nOCZWGIKaDnsbYAsDrg-RM7pNgs" />
-    <uses-library android:name="org.apache.http.legacy" android:required="false" />
+		<!--<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyDMGJR5nOCZWGIKaDnsbYAsDrg-RM7pNgs" />-->
+		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyDqzOJZ_Xvec8ipZe5Wmo2zvO9qzX1A0eU" />
+		<uses-library android:name="org.apache.http.legacy" android:required="false" />
 	</application>
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

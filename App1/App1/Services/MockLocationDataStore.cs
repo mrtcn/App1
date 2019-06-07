@@ -16,15 +16,17 @@ namespace App1.Services
         public MockLocationDataStore()
         {
             locations = new List<Location>();
+            var guid = String.Empty;
 
             var newLocations = new List<Location>()
             {
                 new Location(){
-                    Id = Guid.NewGuid().ToString(),
+                    Id = guid = Guid.NewGuid().ToString(),
                     Name = "Heybeliada Tennis Club",
                     ShortDescription = "Greatest Tennis Club of the World",
                     Description = "Very Magnificiant Tennis Club with a lot of blabla and blabla",
                     Pin = new Pin(){
+                        ClassId = guid,
                         Type = PinType.Place,
                         Position = new Position(40.871517, 29.089059),
                         Label = "Heybeli Tennis Club",
@@ -32,12 +34,13 @@ namespace App1.Services
                     }
                 },
                 new Location(){
-                    Id = Guid.NewGuid().ToString(),
+                    Id = guid =  Guid.NewGuid().ToString(),
                     Name = "Kınalıada Tennis Club",
                     ShortDescription = "Greatest Tennis Club of the World",
                     Description = "Very Magnificiant Tennis Club with a lot of blabla and blabla",
                     Pin = new Pin()
                     {
+                        ClassId = guid,
                         Type = PinType.Place,
                         Position = new Position(40.906027, 29.048176),
                         Label = "Kınalı Tennis Club",
@@ -45,12 +48,13 @@ namespace App1.Services
                     }
                 },
                 new Location(){
-                    Id = Guid.NewGuid().ToString(),
+                    Id = guid = Guid.NewGuid().ToString(),
                     Name = "Burgazada Tennis Club",
                     ShortDescription = "Greatest Tennis Club of the World",
                     Description = "Very Magnificiant Tennis Club with a lot of blabla and blabla",
                     Pin = new Pin()
                     {
+                        ClassId = guid,
                         Type = PinType.Place,
                         Position = new Position(40.880651, 29.061132),
                         Label = "Burgazada Tennis Club",
@@ -58,12 +62,13 @@ namespace App1.Services
                     }
                 },
                 new Location(){
-                    Id = Guid.NewGuid().ToString(),
+                    Id = guid = Guid.NewGuid().ToString(),
                     Name = "Suadiye Tennis Club",
                     ShortDescription = "Greatest Tennis Club of the World",
                     Description = "Very Magnificiant Tennis Club with a lot of blabla and blabla",
                     Pin = new Pin()
                     {
+                        ClassId = guid,
                         Type = PinType.Place,
                         Position = new Position(40.958429, 29.081837),
                         Label = "Suadiye Tennis Club",
@@ -71,12 +76,13 @@ namespace App1.Services
                     }
                 },
                 new Location(){
-                    Id = Guid.NewGuid().ToString(),
+                    Id = guid = Guid.NewGuid().ToString(),
                     Name = "Kadıköy Tennis Club",
                     ShortDescription = "Greatest Tennis Club of the World",
                     Description = "Very Magnificiant Tennis Club with a lot of blabla and blabla",
                     Pin = new Pin()
                     {
+                        ClassId = guid,
                         Type = PinType.Place,
                         Position = new Position(40.991617, 29.025069),
                         Label = "Kadıköy Tennis Club",

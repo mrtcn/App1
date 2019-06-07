@@ -12,10 +12,9 @@
     <StackLayout>
         <maps:Map WidthRequest="320" HeightRequest="200"
                   x:Name="MyMap"
-                  IsShowingUser="true"
                   MapType="Street" />
         <ListView x:Name="ItemsListView"
-                ItemsSource="{Binding Locations}"
+                ItemsSource="{Binding Items}"
                 VerticalOptions="FillAndExpand"
                 HasUnevenRows="true"
                 RefreshCommand="{Binding LoadItemsCommand}"

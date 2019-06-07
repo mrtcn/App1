@@ -6,11 +6,11 @@ namespace App1.ViewModels
 {
     public class ItemDetailViewModel : BaseViewModel
     {
-        public Item Item { get; set; }
-        public ItemDetailViewModel(Item item = null)
+        public Location Location { get; set; }
+        public ItemDetailViewModel(Location location = null)
         {
-            Title = item?.Text;
-            Item = item;
+            Title = location?.Name;
+            Location = location;
         }
     }
 }
