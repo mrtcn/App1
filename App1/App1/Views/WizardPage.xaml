@@ -7,8 +7,21 @@
              x:Class="App1.Views.WizardPage">
     <ContentPage>
         <ContentPage.Content>
-            <StackLayout>
-                <Label Text="Wizard Page 1"
+            <StackLayout
+                BackgroundColor="#011add">
+                <Button 
+                    VerticalOptions="Start"
+                    HorizontalOptions="End"
+                    Margin="0, 25, 10, 0"
+                    Padding="5, 0, 5, 0"
+                    Text=" X " 
+                    FontSize="28"
+                    TextColor="Black" 
+                    FontAttributes="Bold"
+                    BorderWidth="1"
+                    BorderColor="Black"
+                    Clicked="Close_Wizard"></Button>
+                <Label Text="Wizard Page Duygu 1"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
             </StackLayout>
@@ -16,7 +29,20 @@
     </ContentPage>
     <ContentPage>
         <ContentPage.Content>
-            <StackLayout>
+            <StackLayout
+                BackgroundColor="#1df0d3">
+                <Button 
+                    VerticalOptions="Start"
+                    HorizontalOptions="End"
+                    Margin="0, 25, 10, 0"
+                    Padding="5, 0, 5, 0"
+                    Text=" X " 
+                    FontSize="28"
+                    TextColor="Black" 
+                    FontAttributes="Bold"
+                    BorderWidth="1"
+                    BorderColor="Black"
+                    Clicked="Close_Wizard"></Button>
                 <Label Text="Wizard Page 2"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
@@ -25,7 +51,20 @@
     </ContentPage>
     <ContentPage>
         <ContentPage.Content>
-            <StackLayout>
+            <StackLayout
+                BackgroundColor="#812dff">
+                <Button 
+                    VerticalOptions="Start"
+                    HorizontalOptions="End"
+                    Margin="0, 25, 10, 0"
+                    Padding="5, 0, 5, 0"
+                    Text=" X " 
+                    FontSize="28"
+                    TextColor="Black" 
+                    FontAttributes="Bold"
+                    BorderWidth="1"
+                    BorderColor="Black"
+                    Clicked="Close_Wizard"></Button>
                 <Label Text="Wizard Page 3"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
@@ -34,10 +73,29 @@
     </ContentPage>
     <ContentPage>
         <ContentPage.Content>
-            <StackLayout>
+            <StackLayout
+                BackgroundColor="#f04e1f">
+                <Button 
+                    VerticalOptions="Start"
+                    HorizontalOptions="End"
+                    Margin="0, 25, 10, 0"
+                    Padding="5, 0, 5, 0"
+                    Text=" X " 
+                    FontSize="28"
+                    TextColor="Black" 
+                    FontAttributes="Bold"
+                    BorderWidth="1"
+                    BorderColor="Black"
+                    Clicked="Close_Wizard"></Button>
                 <Label Text="Wizard Page 4"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+                <Button
+                    Text="Close Wizard"
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="CenterAndExpand"
+                    Clicked="Close_Wizard"></Button>
             </StackLayout>
         </ContentPage.Content>
     </ContentPage>

@@ -16,5 +16,10 @@ namespace App1.Views
         {
             InitializeComponent();
         }
+
+        private void Close_Wizard(object sender, EventArgs e)
+        {
+            Application.Current.MainPage = new AppShell();
+        }
     }
 }
