@@ -108,7 +108,7 @@ namespace Upope.Identity
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Upope Challenge API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "App1 Challenge API", Version = "v1" });
             });
 
             services.AddAutoMapper();
@@ -144,21 +144,23 @@ namespace Upope.Identity
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Upope Challenge API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "App1 Challenge API V1");
                 c.RoutePrefix = string.Empty;
             });
 
+            app.UseDefaultFiles();
+
+            app.UseStaticFiles();
             app.UseMvc();
             //await app.UseOcelot();
         }
 
         private void BuildAppSettingsProvider()
         {
-            AppSettingsProvider.ChallengeBaseUrl = Configuration["Upope.Challenge:BaseUrl"].ToString();
-            AppSettingsProvider.CreateOrUpdateUser = Configuration["Upope.Challenge:CreateOrUpdate"].ToString();
-
-            AppSettingsProvider.LoyaltyBaseUrl = Configuration["Upope.Loyalty:BaseUrl"].ToString();
-            AppSettingsProvider.CreateOrUpdateLoyalty = Configuration["Upope.Loyalty:CreateOrUpdate"].ToString();
+            AppSettingsProvider.SpotBaseUrl = Configuration["App1.Spot:BaseUrl"].ToString();
+            AppSettingsProvider.CreateOrUpdateUser = Configuration["App1.Spot:CreateOrUpdateUser"].ToString();
+            AppSettingsProvider.CreateOrUpdateSpot = Configuration["App1.Spot:CreateOrUpdateSpot"].ToString();
+            AppSettingsProvider.IdentityBaseUrl = Configuration["App1.Identity:BaseUrl"].ToString();
         }
     }
 }

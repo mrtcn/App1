@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:App1.Views"
              x:Class="App1.Views.Login">
+    <ContentPage.BindingContext>
+        <local:LoginViewModel />
+    </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Sign up"
@@ -16,10 +20,18 @@
                     Clicked="Button_Clicked"
                     VerticalOptions="Start"
                     HorizontalOptions="CenterAndExpand"></Button>
+            
             <Button Text="Login with Facebook"
                     Clicked="Button_Clicked"
                     VerticalOptions="Start"
                     HorizontalOptions="CenterAndExpand"></Button>
+
+            <local:FacebookLoginButton
+                Margin="20,0"
+                OnSuccess="{Binding OnFacebookLoginSuccessCmd}"
+                OnError="{Binding OnFacebookLoginErrorCmd}"
+                OnCancel="{Binding OnFacebookLoginCancelCmd}" />
+            
             <Label Text="Or"
                 VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" Margin="0,20,0,20" />

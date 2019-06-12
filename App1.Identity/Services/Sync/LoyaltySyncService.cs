@@ -17,12 +17,12 @@ namespace App1.Identity.Services.Sync
 
         public async Task SyncLoyaltyTable(CreateOrUpdateLoyaltyViewModel model, string accessToken)
         {
-            var baseUrl = AppSettingsProvider.LoyaltyBaseUrl;
+            //var baseUrl = AppSettingsProvider.LoyaltyBaseUrl;
 
-            var api = AppSettingsProvider.CreateOrUpdateLoyalty;
+            //var api = AppSettingsProvider.CreateOrUpdateLoyalty;
 
-            var messageBody = JsonConvert.SerializeObject(model);
-            var result = await _httpHandler.AuthPostAsync<CreateOrUpdateLoyaltyViewModel>(accessToken, baseUrl, api, messageBody);
+            //var messageBody = JsonConvert.SerializeObject(model);
+            //var result = await _httpHandler.AuthPostAsync<CreateOrUpdateLoyaltyViewModel>(accessToken, baseUrl, api, messageBody);
         }
     }
 }

@@ -14,11 +14,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/account/anon/{action}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 55080
+          "Host": "app1.identity.upope.com",
+          "Port": 443
         }
       ],
       "UpstreamPathTemplate": "/api/a/account/anon/{action}",
@@ -26,17 +26,17 @@
     },
     {
       "DownstreamPathTemplate": "/api/account/{action}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 55080
+          "Host": "app1.identity.upope.com",
+          "Port": 443
         }
       ],
       "UpstreamPathTemplate": "/api/a/account/{action}",
       "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "UpopeIdentity",
+        "AuthenticationProviderKey": "App1Identity",
         "AllowedScopes": []
       }
     }

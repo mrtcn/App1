@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using NLog.Extensions.Logging;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using System.Text;
 using System.Threading.Tasks;
 using App1.ApiGateway.Handlers;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace App1.ApiGateway
 {
@@ -33,7 +33,7 @@ namespace App1.ApiGateway
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer("UpopeIdentity", config =>
+            }).AddJwtBearer("App1Identity", config =>
             {
                 config.RequireHttpsMetadata = false;
                 config.SaveToken = true;
