@@ -1,4 +1,5 @@
-﻿using App1.Models;
+﻿using App1.Interfaces;
+using App1.Models;
 using App1.ViewModels;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -18,19 +19,16 @@ namespace App1.Views
         {
             OnFacebookLoginSuccessCmd = new Command<string>(
                 async (authToken) => {
-                    var httpClient = new HttpClient();
 
-                    var facebookAuthViewModel = new FacebookAuthViewModel() { AccessToken = authToken};
+                    var httpHandler = DependencyService.Get<IHttpHandler>();
+                    var identityUrl = "https://app1.identity.upope.com";
+                    var facebookAuthViewModel = new FacebookAuthViewModel() { AccessToken = authToken };
                     var jsonBody = JsonConvert.SerializeObject(facebookAuthViewModel);
-                    var httpContent = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+                    var tokenModel = httpHandler.AuthPostAsync<TokenModel>(string.Empty, identityUrl, "api/account/anon/facebook", jsonBody);
 
-                    var response = await httpClient.PostAsync("https://app1.identity.upope.com/api/account/anon/facebook", httpContent);
+                    //var httpContent = new StringContent(jsonBody, Encoding.UTF8, "application/json");
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var tokenModelJson = await response.Content.ReadAsStringAsync();
-                        var tokenModel = JsonConvert.DeserializeObject<TokenModel>(tokenModelJson);
-                    }
+                    //var response = await httpClient.PostAsync("https://app1.identity.upope.com/api/account/anon/facebook", httpContent);
 
                     DisplayAlert("Success", $"Authentication succeed: { authToken }");
                 });

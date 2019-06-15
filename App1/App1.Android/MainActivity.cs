@@ -35,28 +35,28 @@ namespace App1.Droid
             Xamarin.FormsMaps.Init(this, savedInstanceState);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
 
-            //try
-            //{
+            try
+            {
 
-            //    PackageInfo info = PackageManager.GetPackageInfo(
-            //                "com.companyname.App1",
-            //                PackageInfoFlags.Signatures);
-            //    foreach (var signature in info.Signatures)
-            //    {
-            //        MessageDigest md = MessageDigest.GetInstance("SHA");
-            //        md.Update(signature.ToByteArray());
-            //        Log.Debug("KeyHash:", Base64.EncodeToString(md.Digest(), Base64.Default));
-            //        var s = Base64.EncodeToString(md.Digest(), Base64.Default);
-            //    }
-            //}
-            //catch (NameNotFoundException e)
-            //{
+                PackageInfo info = PackageManager.GetPackageInfo(
+                            "com.companyname.App1",
+                            PackageInfoFlags.Signatures);
+                foreach (var signature in info.Signatures)
+                {
+                    MessageDigest md = MessageDigest.GetInstance("SHA");
+                    md.Update(signature.ToByteArray());
+                    Log.Debug("KeyHash:", Base64.EncodeToString(md.Digest(), Base64.Default));
+                    var s = Base64.EncodeToString(md.Digest(), Base64.Default);
+                }
+            }
+            catch (NameNotFoundException e)
+            {
 
-            //}
-            //catch (NoSuchAlgorithmException e)
-            //{
+            }
+            catch (NoSuchAlgorithmException e)
+            {
 
-            //}
+            }
 
 
             LoadApplication(new App());
