@@ -43,8 +43,6 @@ namespace App1.Identity.Controllers
         readonly IConfiguration configuration;
         readonly ILogger<AccountController> logger;
         private readonly IHostingEnvironment _hostingEnvironment;
-        private readonly IChallengeUserSyncService _challengeUserSyncService;
-        private readonly ILoyaltySyncService _loyaltySyncService;
         readonly DateTime? TokenLifetime;
         readonly string TokenAudience;
         readonly string TokenIssuer;
@@ -65,9 +63,7 @@ namespace App1.Identity.Controllers
            IExternalAuthService<GoogleResponse> googleService,
            IConfiguration configuration,
            ILogger<AccountController> logger,
-           IHostingEnvironment hostingEnvironment,
-           IChallengeUserSyncService challengeUserSyncService,
-           ILoyaltySyncService loyaltySyncService)
+           IHostingEnvironment hostingEnvironment)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -80,8 +76,6 @@ namespace App1.Identity.Controllers
             this.configuration = configuration;
             this.logger = logger;
             _hostingEnvironment = hostingEnvironment;
-            _challengeUserSyncService = challengeUserSyncService;
-            _loyaltySyncService = loyaltySyncService;
             TokenLifetime = DateTime.UtcNow.AddSeconds(this.configuration.GetValue<int>("Tokens:Lifetime"));
             TokenAudience = configuration.GetValue<String>("Tokens:Audience");
             TokenIssuer = configuration.GetValue<String>("Tokens:Issuer");
@@ -218,8 +212,6 @@ namespace App1.Identity.Controllers
             user.Longitude = model.Longitude;
 
             var updatedUser = await userManager.UpdateAsync(user);
-            if(updatedUser.Succeeded)
-                await SyncChallengeUserTable(user, accessToken);
 
             return Ok();
         }
@@ -259,11 +251,6 @@ namespace App1.Identity.Controllers
                         await signInManager.SignInAsync(user, isPersistent: false);
 
                         var accessToken = _tokenService.GenerateAccessToken(user);
-                        // Syncing the Challenge DB User table
-                        await SyncChallengeUserTable(user, accessToken);
-
-                        // Syncing the Loyalty DB Loyalty table
-                        await SyncLoyaltyTable(true, user, accessToken);
 
                         return Ok(new TokenModel(accessToken, refreshToken));
                     }
@@ -340,12 +327,6 @@ namespace App1.Identity.Controllers
 
                 var accessToken = _tokenService.GenerateAccessToken(localUser);                
                 
-                // Syncing the Challenge DB User table
-                await SyncChallengeUserTable(localUser, accessToken);
-
-                // Syncing the Loyalty DB Loyalty table
-                await SyncLoyaltyTable(isCreate, localUser, accessToken);
-
                 return Ok(new TokenModel(accessToken, refreshToken));
             }
             catch (Exception ex)
@@ -353,31 +334,6 @@ namespace App1.Identity.Controllers
                 return BadRequest(ex);
             }
             
-        }
-
-        private async Task SyncChallengeUserTable(ApplicationUser localUser, string accessToken)
-        {
-            // Syncing the Challenge DB User table
-            var createChallengeUserViewModel = _mapper.Map<ApplicationUser, CreateOrUpdateChallengeUserViewModel>(localUser);
-            createChallengeUserViewModel.UserId = localUser.Id;
-
-            await _challengeUserSyncService.SyncChallengeUserTable(createChallengeUserViewModel, accessToken);
-        }
-
-        private async Task SyncLoyaltyTable(bool isCreate, ApplicationUser localUser, string accessToken)
-        {
-            CreateOrUpdateLoyaltyViewModel createOrUpdateLoyaltyViewModel;
-            if (isCreate)
-            {
-                createOrUpdateLoyaltyViewModel = new CreateOrUpdateLoyaltyViewModel()
-                {
-                    UserId = localUser.Id,
-                    Credit = 50,
-                    Score = 0,
-                    Win = 0
-                };
-                await _loyaltySyncService.SyncLoyaltyTable(createOrUpdateLoyaltyViewModel, accessToken);
-            }
         }
 
         // POST api/externalauth/google
@@ -434,12 +390,6 @@ namespace App1.Identity.Controllers
             }
 
             var accessToken = _tokenService.GenerateAccessToken(localUser);
-
-            // Syncing the Challenge DB User table
-            await SyncChallengeUserTable(localUser, accessToken);
-
-            // Syncing the Loyalty DB Loyalty table
-            await SyncLoyaltyTable(isCreate, localUser, accessToken);
 
             return Ok(new TokenModel(accessToken, refreshToken));
         }
