@@ -1,15 +1,14 @@
-﻿using Xamarin.Forms.Maps;
-
-namespace App1.Models
+﻿
+namespace App1.Spot.ViewModels
 {
-    public class Location
+    public class SpotListViewModel
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string ShortDescription { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
-
-        public Pin Pin { get; set; }
+        public double Latitude { get; }
+        public double Longitude { get; }
     }
 }

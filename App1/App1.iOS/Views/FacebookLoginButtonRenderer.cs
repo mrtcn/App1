@@ -25,6 +25,7 @@ namespace App1.iOS.Views
 
                 fbLoginbBtnCtrl.Completed += AuthCompleted;
                 SetNativeControl(fbLoginbBtnCtrl);
+
             }
         }
 

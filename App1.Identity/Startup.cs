@@ -108,14 +108,14 @@ namespace Upope.Identity
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "App1 Challenge API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "App1 Identity API", Version = "v1" });
             });
 
             services.AddAutoMapper();
 
             services.AddHttpClient();
             services.AddTransient<IHttpHandler, HttpHandler>();
-            services.AddTransient<ILoyaltySyncService, LoyaltySyncService>();
+            services.AddTransient<ISpotPlayerSyncService, SpotPlayerSyncService>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IPasswordHasher, PasswordHasher>();
             //services.AddOcelot(Configuration);
@@ -144,7 +144,7 @@ namespace Upope.Identity
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "App1 Challenge API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "App1 Identity API V1");
                 c.RoutePrefix = string.Empty;
             });
 

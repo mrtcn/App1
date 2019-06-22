@@ -26,12 +26,12 @@ namespace App1.Droid.Views
                 var fbLoginBtnView = e.NewElement as FacebookLoginButton;
                 var fbLoginbBtnCtrl = new Xamarin.Facebook.Login.Widget.LoginButton(ctx)
                 {
-                    LoginBehavior = LoginBehavior.NativeWithFallback
+                    LoginBehavior = LoginBehavior.NativeOnly
                 };
 
                 fbLoginbBtnCtrl.SetReadPermissions(fbLoginBtnView.Permissions);
                 fbLoginbBtnCtrl.RegisterCallback(MainActivity.CallbackManager, new MyFacebookCallback(this.Element as FacebookLoginButton));
-
+                
                 SetNativeControl(fbLoginbBtnCtrl);
             }
         }
@@ -43,11 +43,12 @@ namespace App1.Droid.Views
                 if (this.Control != null)
                 {
                     (this.Control as Xamarin.Facebook.Login.Widget.LoginButton).UnregisterCallback(MainActivity.CallbackManager);
+                    base.Dispose(disposing);
                     this.Control.Dispose();
                 }
                 this.disposed = true;
             }
-            base.Dispose(disposing);
+            
         }
 
         class MyFacebookCallback : Java.Lang.Object, IFacebookCallback
@@ -58,7 +59,7 @@ namespace App1.Droid.Views
             {
                 this.view = view;
             }
-
+            
             public void OnCancel() =>
                 view.OnCancel?.Execute(null);
 
@@ -67,7 +68,6 @@ namespace App1.Droid.Views
 
             public void OnSuccess(Java.Lang.Object result) =>
                 view.OnSuccess?.Execute(((LoginResult)result).AccessToken.Token);
-
         }
     }
 }

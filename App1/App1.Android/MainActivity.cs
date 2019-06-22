@@ -3,14 +3,13 @@
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
 using Xamarin.Facebook;
 using Android.Content;
 using Java.Security;
 using Android.Util;
 using static Android.Content.PM.PackageManager;
+using Java.Lang;
 
 namespace App1.Droid
 {
@@ -60,22 +59,23 @@ namespace App1.Droid
 
 
             LoadApplication(new App());
-        }
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
-        {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-
-        protected override void OnActivityResult(
-            int requestCode,
-            Result resultCode,
-            Intent data)
-        {
-            base.OnActivityResult(requestCode, resultCode, data);
-            CallbackManager.OnActivityResult(requestCode, Convert.ToInt32(resultCode),
-                data);
-        }
     }
+        
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+            {
+                Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+                base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+
+            protected override void OnActivityResult(
+                int requestCode,
+                Result resultCode,
+                Intent data)
+            {
+                base.OnActivityResult(requestCode, resultCode, data);
+                CallbackManager.OnActivityResult(requestCode, Convert.ToInt32(resultCode),
+                    data);
+            }
+        }
 }

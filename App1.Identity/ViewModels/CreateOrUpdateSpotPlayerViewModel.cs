@@ -2,7 +2,7 @@
 
 namespace App1.Identity.ViewModels
 {
-    public class CreateOrUpdateChallengeUserViewModel
+    public class CreateOrUpdateSpotPlayerViewModel
     {
         public String UserId { get; set; }
         public String FirstName { get; set; }

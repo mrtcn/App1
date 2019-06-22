@@ -15,7 +15,7 @@ namespace App1.Views
                 typeof(string[]),
                 typeof(FacebookLoginButton),
                 // This permission is set by default, even if you don’t add it, but FB recommends to add it anyway
-                defaultValue: new string[] { "public_profile", "email" });
+                defaultValue: new string[] { "public_profile", "email", "user_birthday", "user_gender" });
 
         public Command<string> OnSuccess
         {
@@ -43,5 +43,6 @@ namespace App1.Views
 
         public static readonly BindableProperty OnCancelProperty =
             BindableProperty.Create(nameof(OnCancel), typeof(Command), typeof(FacebookLoginButton));
+
     }
 }

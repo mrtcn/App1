@@ -2,7 +2,6 @@
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.Linq;
-using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -10,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using App1.Identity.DbContext;
 using App1.Identity.Entities;
@@ -40,17 +38,8 @@ namespace App1.Identity.Controllers
         readonly IRandomPasswordHelper _randomPasswordHelper;
         readonly IExternalAuthService<FacebookResponse> _facebookService;
         readonly IExternalAuthService<GoogleResponse> _googleService;
-        readonly IConfiguration configuration;
-        readonly ILogger<AccountController> logger;
+        private readonly ISpotPlayerSyncService _spotPlayerSyncService;
         private readonly IHostingEnvironment _hostingEnvironment;
-        readonly DateTime? TokenLifetime;
-        readonly string TokenAudience;
-        readonly string TokenIssuer;
-        readonly string TokenKey;
-        readonly string AppId;
-        readonly string AppSecret;
-
-        static HttpClient client = new HttpClient();
 
         public AccountController(
            UserManager<ApplicationUser> userManager,
@@ -61,7 +50,7 @@ namespace App1.Identity.Controllers
            IRandomPasswordHelper randomPasswordHelper,
            IExternalAuthService<FacebookResponse> facebookService,
            IExternalAuthService<GoogleResponse> googleService,
-           IConfiguration configuration,
+           ISpotPlayerSyncService spotPlayerSyncService,
            ILogger<AccountController> logger,
            IHostingEnvironment hostingEnvironment)
         {
@@ -73,15 +62,8 @@ namespace App1.Identity.Controllers
             _randomPasswordHelper = randomPasswordHelper;
             _facebookService = facebookService;
             _googleService = googleService;
-            this.configuration = configuration;
-            this.logger = logger;
+            _spotPlayerSyncService = spotPlayerSyncService;
             _hostingEnvironment = hostingEnvironment;
-            TokenLifetime = DateTime.UtcNow.AddSeconds(this.configuration.GetValue<int>("Tokens:Lifetime"));
-            TokenAudience = configuration.GetValue<String>("Tokens:Audience");
-            TokenIssuer = configuration.GetValue<String>("Tokens:Issuer");
-            TokenKey = configuration.GetValue<String>("Tokens:Key");
-            AppId = configuration.GetValue<String>("ExternalAuthentication:Facebook:AppId");
-            AppSecret = configuration.GetValue<String>("ExternalAuthentication:Facebook:AppSecret");
         }
 
         private Task<ApplicationUser> GetCurrentUserAsync() => userManager.GetUserAsync(HttpContext.User);
@@ -211,7 +193,18 @@ namespace App1.Identity.Controllers
             user.Latitude = model.Latitude;
             user.Longitude = model.Longitude;
 
-            var updatedUser = await userManager.UpdateAsync(user);
+            await userManager.UpdateAsync(user);
+
+            await _spotPlayerSyncService.SyncSpotPlayerTableAsync(new CreateOrUpdateSpotPlayerViewModel
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Nickname = user.Nickname,
+                UserId = user.Id,
+                PictureUrl = user.PictureUrl,
+                Latitude = user.Latitude,
+                Longitude = user.Longitude
+            }, accessToken);
 
             return Ok();
         }
@@ -251,6 +244,17 @@ namespace App1.Identity.Controllers
                         await signInManager.SignInAsync(user, isPersistent: false);
 
                         var accessToken = _tokenService.GenerateAccessToken(user);
+
+                        await _spotPlayerSyncService.SyncSpotPlayerTableAsync(new CreateOrUpdateSpotPlayerViewModel
+                        {
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                            Nickname = user.Nickname,
+                            UserId = user.Id,
+                            PictureUrl = user.PictureUrl,
+                            Latitude = user.Latitude,
+                            Longitude = user.Longitude
+                        }, accessToken);
 
                         return Ok(new TokenModel(accessToken, refreshToken));
                     }
@@ -325,8 +329,19 @@ namespace App1.Identity.Controllers
                     return BadRequest("Failed to create local user account.");
                 }
 
-                var accessToken = _tokenService.GenerateAccessToken(localUser);                
-                
+                var accessToken = _tokenService.GenerateAccessToken(localUser);
+
+                await _spotPlayerSyncService.SyncSpotPlayerTableAsync(new CreateOrUpdateSpotPlayerViewModel
+                {
+                    FirstName = localUser.FirstName,
+                    LastName = localUser.LastName,
+                    Nickname = localUser.Nickname,
+                    UserId = localUser.Id,
+                    PictureUrl = localUser.PictureUrl,
+                    Latitude = localUser.Latitude,
+                    Longitude = localUser.Longitude
+                }, accessToken);
+
                 return Ok(new TokenModel(accessToken, refreshToken));
             }
             catch (Exception ex)
@@ -390,6 +405,17 @@ namespace App1.Identity.Controllers
             }
 
             var accessToken = _tokenService.GenerateAccessToken(localUser);
+
+            await _spotPlayerSyncService.SyncSpotPlayerTableAsync(new CreateOrUpdateSpotPlayerViewModel
+            {
+                FirstName = localUser.FirstName,
+                LastName = localUser.LastName,
+                Nickname = localUser.Nickname,
+                UserId = localUser.Id,
+                PictureUrl = localUser.PictureUrl,
+                Latitude = localUser.Latitude,
+                Longitude = localUser.Longitude
+            }, accessToken);
 
             return Ok(new TokenModel(accessToken, refreshToken));
         }

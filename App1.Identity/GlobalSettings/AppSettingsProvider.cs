@@ -5,6 +5,7 @@ namespace App1.Identity.GlobalSettings
     {
         public static string SpotBaseUrl { get; set; }
         public static string CreateOrUpdateSpot { get; set; }
+        public static string CreateOrUpdatePlayer { get; set; }
 
 
 

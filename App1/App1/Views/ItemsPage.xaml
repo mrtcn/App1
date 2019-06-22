@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             xmlns:local="clr-namespace:App1.Views"
              x:Class="App1.Views.ItemsPage"
               Title="{Binding Title}"
              x:Name="BrowseItemsPage">
@@ -13,6 +14,11 @@
         <maps:Map WidthRequest="320" HeightRequest="200"
                   x:Name="MyMap"
                   MapType="Street" />
+        <local:FacebookLoginButton
+                Margin="20,0"
+                OnSuccess="{Binding OnFacebookLoginSuccessCmd}"
+                OnError="{Binding OnFacebookLoginErrorCmd}"
+                OnCancel="{Binding OnFacebookLoginCancelCmd}"/>
         <ListView x:Name="ItemsListView"
                 ItemsSource="{Binding Items}"
                 VerticalOptions="FillAndExpand"

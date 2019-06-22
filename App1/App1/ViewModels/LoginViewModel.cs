@@ -2,8 +2,6 @@
 using App1.Models;
 using App1.ViewModels;
 using Newtonsoft.Json;
-using System.Net.Http;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -11,27 +9,31 @@ namespace App1.Views
 {
     public class LoginViewModel
     {
-        public ICommand OnFacebookLoginSuccessCmd { get; }
-        public ICommand OnFacebookLoginErrorCmd { get; }
-        public ICommand OnFacebookLoginCancelCmd { get; }
+        public ICommand OnFacebookLoginSuccessCmd { get; internal set; }
+        public ICommand OnFacebookLoginErrorCmd { get; internal set; }
+        public ICommand OnFacebookLoginCancelCmd { get; internal set; }
 
         public LoginViewModel()
         {
             OnFacebookLoginSuccessCmd = new Command<string>(
-                async (authToken) => {
+            async (authToken) =>
+            {
 
-                    var httpHandler = DependencyService.Get<IHttpHandler>();
-                    var identityUrl = "https://app1.identity.upope.com";
-                    var facebookAuthViewModel = new FacebookAuthViewModel() { AccessToken = authToken };
-                    var jsonBody = JsonConvert.SerializeObject(facebookAuthViewModel);
-                    var tokenModel = httpHandler.AuthPostAsync<TokenModel>(string.Empty, identityUrl, "api/account/anon/facebook", jsonBody);
+                var httpHandler = DependencyService.Get<IHttpHandler>();
+                var identityUrl = "https://app1.identity.upope.com";
+                var facebookAuthViewModel = new FacebookAuthViewModel() { AccessToken = authToken };
+                var jsonBody = JsonConvert.SerializeObject(facebookAuthViewModel);
+                var tokenModel = await httpHandler.AuthPostAsync<TokenModel>(string.Empty, identityUrl, "/api/account/anon/facebook", jsonBody);
 
-                    //var httpContent = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+                if (!Application.Current.Properties.ContainsKey("AccessToken"))
+                    Application.Current.Properties.Add("AccessToken", tokenModel.AccessToken);
 
-                    //var response = await httpClient.PostAsync("https://app1.identity.upope.com/api/account/anon/facebook", httpContent);
+                if (!Application.Current.Properties.ContainsKey("RefreshToken"))
+                    Application.Current.Properties.Add("RefreshToken", tokenModel.RefreshToken);
 
-                    DisplayAlert("Success", $"Authentication succeed: { authToken }");
-                });
+                Application.Current.MainPage = new WizardPage();
+
+            });
 
             OnFacebookLoginErrorCmd = new Command<string>(
                 (err) => DisplayAlert("Error", $"Authentication failed: { err }"));
