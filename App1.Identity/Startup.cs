@@ -159,7 +159,7 @@ namespace Upope.Identity
         {
             AppSettingsProvider.SpotBaseUrl = Configuration["App1.Spot:BaseUrl"].ToString();
             AppSettingsProvider.CreateOrUpdateUser = Configuration["App1.Spot:CreateOrUpdateUser"].ToString();
-            AppSettingsProvider.CreateOrUpdateSpot = Configuration["App1.Spot:CreateOrUpdateSpot"].ToString();
+            AppSettingsProvider.CreateOrUpdatePlayer = Configuration["App1.Spot:CreateOrUpdatePlayer"].ToString();
             AppSettingsProvider.IdentityBaseUrl = Configuration["App1.Identity:BaseUrl"].ToString();
         }
     }

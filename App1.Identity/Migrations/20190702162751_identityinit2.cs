@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace App1.Identity.Migrations
 {
-    public partial class identity_init : Migration
+    public partial class identityinit2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -1,5 +1,6 @@
 ﻿using App1.Models;
 using App1.Spot.EntityParams;
+using App1.Spot.ViewModels;
 using AutoMapper;
 using SpotEntity = App1.Spot.Data.Entities.Spot;
 
@@ -14,6 +15,9 @@ namespace Upope.Spot
 
             CreateMap<SpotEntity, SpotEntityParams>();
             CreateMap<SpotEntityParams, SpotEntity>();
+
+            CreateMap<CreateOrUpdatePlayerViewModel, PlayerEntityParams>();
+            CreateMap<PlayerEntityParams, CreateOrUpdatePlayerViewModel>();
         }
     }
 }

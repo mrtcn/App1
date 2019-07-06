@@ -20,10 +20,10 @@ namespace App1.Views
             {
 
                 var httpHandler = DependencyService.Get<IHttpHandler>();
-                var identityUrl = "https://app1.identity.upope.com";
+                var identityUrl = AppSettingsManager.Settings["identityUrl"];
                 var facebookAuthViewModel = new FacebookAuthViewModel() { AccessToken = authToken };
                 var jsonBody = JsonConvert.SerializeObject(facebookAuthViewModel);
-                var tokenModel = await httpHandler.AuthPostAsync<TokenModel>(string.Empty, identityUrl, "/api/account/anon/facebook", jsonBody);
+                var tokenModel = await httpHandler.AuthPostAsync<TokenModel>(string.Empty, identityUrl, AppSettingsManager.Settings["facebookLogin"], jsonBody);
 
                 if (!Application.Current.Properties.ContainsKey("AccessToken"))
                     Application.Current.Properties.Add("AccessToken", tokenModel.AccessToken);

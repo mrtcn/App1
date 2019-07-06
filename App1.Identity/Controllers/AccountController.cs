@@ -68,6 +68,13 @@ namespace App1.Identity.Controllers
 
         private Task<ApplicationUser> GetCurrentUserAsync() => userManager.GetUserAsync(HttpContext.User);
 
+        [HttpGet]
+        [Route("test")]
+        public IActionResult Test()
+        {
+            return Ok();
+        }
+
         [HttpPost]
         [Route("getuserid")]
         [Authorize]
