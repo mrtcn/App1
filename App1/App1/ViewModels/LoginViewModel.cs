@@ -27,9 +27,13 @@ namespace App1.Views
 
                 if (!Application.Current.Properties.ContainsKey("AccessToken"))
                     Application.Current.Properties.Add("AccessToken", tokenModel.AccessToken);
+                else
+                    Application.Current.Properties["AccessToken"] = tokenModel.AccessToken;
 
                 if (!Application.Current.Properties.ContainsKey("RefreshToken"))
                     Application.Current.Properties.Add("RefreshToken", tokenModel.RefreshToken);
+                else
+                    Application.Current.Properties["RefreshToken"] = tokenModel.RefreshToken;
 
                 Application.Current.MainPage = new WizardPage();
 

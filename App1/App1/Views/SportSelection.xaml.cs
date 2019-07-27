@@ -16,7 +16,7 @@ namespace App1.Views
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-            DependencyService.Register<MockDataStore>();
+            //DependencyService.Register<MockDataStore>();
             if(!Application.Current.Properties.ContainsKey("IsSportSelected"))
                 Application.Current.Properties.Add("IsSportSelected", true);
 

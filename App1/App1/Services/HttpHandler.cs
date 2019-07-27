@@ -21,6 +21,28 @@ namespace App1.Services
             _httpClientFactory = App.ServiceProvider.GetRequiredService<IHttpClientFactory>();
         }
 
+        public T AuthPost<T>(string token, string baseUrl, string api, string messageBody = null) where T : class
+        {
+            using (var httpClient = _httpClientFactory.CreateClient())
+            {
+                httpClient.BaseAddress = new Uri(baseUrl);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                StringContent stringContent = null;
+                if (!string.IsNullOrEmpty(messageBody))
+                {
+                    stringContent = new StringContent(messageBody, UnicodeEncoding.UTF8, "application/json");
+                }
+
+                var result = httpClient.PostAsync(api, stringContent);
+                string resultContent = result.Result.Content.ReadAsStringAsync().Result;
+
+                var resultObject = JsonConvert.DeserializeObject<T>(resultContent);
+
+                return resultObject;
+            }
+        }
+
         public async Task<T> AuthPostAsync<T>(string token, string baseUrl, string api, string messageBody = null) where T : class
         {
             using (var httpClient = _httpClientFactory.CreateClient())

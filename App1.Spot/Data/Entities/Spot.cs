@@ -13,8 +13,8 @@ namespace App1.Spot.Data.Entities
         string ShortDescription { get; set; }
         string Description { get; set; }
         string ImageUrl { get; set; }
-        double Latitude { get; }
-        double Longitude { get; }
+        double Latitude { get; set; }
+        double Longitude { get; set; }
     }
 
     public class Spot: ISpot

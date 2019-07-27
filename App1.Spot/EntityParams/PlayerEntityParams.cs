@@ -10,9 +10,10 @@ namespace App1.Spot.EntityParams
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string ImageUrl { get; set; }
+        public String FirstName { get; set; }
+        public String LastName { get; set; }
+        public String Nickname { get; set; }
+        public String PictureUrl { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 

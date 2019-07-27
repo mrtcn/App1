@@ -13,6 +13,9 @@ namespace Upope.Spot
             CreateMap<Player, PlayerEntityParams>();
             CreateMap<PlayerEntityParams, Player>();
 
+            CreateMap<SpotEntityParams, SpotListViewModel>();
+            CreateMap<SpotListViewModel, SpotEntityParams>();
+
             CreateMap<SpotEntity, SpotEntityParams>();
             CreateMap<SpotEntityParams, SpotEntity>();
 

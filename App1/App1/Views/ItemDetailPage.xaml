@@ -11,7 +11,10 @@
         <Label Text="{Binding Location.ShortDescription}" FontSize="Small"/>
         <Label Text="Description:" FontSize="Medium" />
         <Label Text="{Binding Location.Description}" FontSize="Small"/>
-
+        <Button Text="Follow"
+                Clicked="OnFollowClicked">
+            
+        </Button>
         <ListView x:Name="PlayerListView"
                 ItemsSource="{Binding Players}"
                 VerticalOptions="FillAndExpand"
@@ -25,11 +28,11 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Padding="10">
-                            <Label Text="{Binding Name}" 
+                            <Label Text="{Binding FirstName}" 
                                 LineBreakMode="NoWrap" 
                                 Style="{DynamicResource ListItemTextStyle}" 
                                 FontSize="16" />
-                            <Label Text="{Binding Surname}" 
+                            <Label Text="{Binding LastName}" 
                                 LineBreakMode="NoWrap"
                                 Style="{DynamicResource ListItemDetailTextStyle}"
                                 FontSize="13" />

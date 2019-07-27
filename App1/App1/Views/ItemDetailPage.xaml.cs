@@ -2,6 +2,7 @@
 
 using App1.ViewModels;
 using App1.Models;
+using System.Linq;
 
 namespace App1.Views
 {
@@ -12,8 +13,7 @@ namespace App1.Views
         public ItemDetailPage(ItemDetailViewModel viewModel)
         {
             InitializeComponent();
-
-            BindingContext = viewModel;
+            BindingContext = this.viewModel = viewModel;
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
@@ -26,6 +26,22 @@ namespace App1.Views
 
             // Manually deselect item.
             PlayerListView.SelectedItem = null;
+        }
+
+        protected override void OnAppearing()
+        {
+            if (viewModel.Players == null || !viewModel.Players.Any())
+                viewModel.LoadItemsCommand.Execute(null);
+
+            base.OnAppearing();
+        }
+
+        private async void OnFollowClicked(object sender, System.EventArgs e)
+        {
+            var followSpotViewModel = new FollowSpotViewModel() { SpotId = viewModel.Location.Id };
+            var result = await viewModel.FollowSpot(followSpotViewModel);
+            if (result)
+                viewModel.LoadItemsCommand.Execute(null);
         }
     }
 }

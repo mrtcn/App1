@@ -5,6 +5,10 @@ using App1.Services;
 using App1.Views;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
+using AutoMapper.Configuration;
+using AutoMapper;
+using App1.ViewModels;
+using App1.Interfaces;
 
 namespace App1
 {
@@ -22,6 +26,7 @@ namespace App1
             InitializeComponent();
 
             DependencyService.Register<HttpHandler>();
+            InitAutoMapper();
 
             if (services == null)
             {
@@ -29,13 +34,12 @@ namespace App1
             }
             services.AddHttpClient();
 
-
             ServiceProvider = services.BuildServiceProvider();
 
-            if (UseMockDataStore)
-                DependencyService.Register<MockDataStore>();
-            else
-                DependencyService.Register<AzureDataStore>();
+            //if (UseMockDataStore)
+            //    DependencyService.Register<MockDataStore>();
+            //else
+            //    DependencyService.Register<AzureDataStore>();
             //MainPage = new AppShell();
             MainPage = new NavigationPage(new Login());
         }
@@ -53,6 +57,19 @@ namespace App1
         protected override void OnResume()
         {
             // Handle when your app resumes
+        }
+
+        private void InitAutoMapper()
+        {
+            MapperConfigurationExpression cfg = new MapperConfigurationExpression();
+            cfg.CreateMap<Models.Location, Xamarin.Essentials.Location>();
+            cfg.CreateMap<Xamarin.Essentials.Location, Models.Location>();
+            cfg.CreateMap<Xamarin.Essentials.Location, SpotListViewModel>();
+            cfg.CreateMap<SpotListViewModel, Xamarin.Essentials.Location>();
+            cfg.CreateMap<Models.Location, SpotListViewModel>();
+            cfg.CreateMap<SpotListViewModel, Models.Location>();
+
+            Mapper.Initialize(cfg);
         }
     }
 }

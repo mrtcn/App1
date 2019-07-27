@@ -27,19 +27,21 @@ namespace App1.Spot.Migrations
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<string>("ImageUrl");
+                    b.Property<string>("FirstName");
 
                     b.Property<DateTime?>("LastModifiedDate");
+
+                    b.Property<string>("LastName");
 
                     b.Property<double>("Latitude");
 
                     b.Property<double>("Longitude");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Nickname");
+
+                    b.Property<string>("PictureUrl");
 
                     b.Property<int>("Status");
-
-                    b.Property<string>("Surname");
 
                     b.Property<string>("UserId");
 
@@ -75,6 +77,10 @@ namespace App1.Spot.Migrations
 
                     b.Property<DateTime?>("LastModifiedDate");
 
+                    b.Property<double>("Latitude");
+
+                    b.Property<double>("Longitude");
+
                     b.Property<string>("Name");
 
                     b.Property<string>("ShortDescription");
@@ -84,6 +90,68 @@ namespace App1.Spot.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Spot");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2019, 7, 13, 11, 19, 10, 228, DateTimeKind.Local).AddTicks(7937),
+                            Description = "Very Magnificiant Tennis Club with a lot of blabla and blabla",
+                            ImageUrl = "",
+                            Latitude = 40.871516999999997,
+                            Longitude = 29.089058999999999,
+                            Name = "Heybeliada Tennis Club",
+                            ShortDescription = "Greatest Tennis Club of the World",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(2019, 7, 13, 11, 19, 10, 228, DateTimeKind.Local).AddTicks(8444),
+                            Description = "Very Magnificiant Tennis Club with a lot of blabla and blabla",
+                            ImageUrl = "",
+                            Latitude = 40.906027000000002,
+                            Longitude = 29.048176000000002,
+                            Name = "Kınalıada Tennis Club",
+                            ShortDescription = "Greatest Tennis Club of the World",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedDate = new DateTime(2019, 7, 13, 11, 19, 10, 228, DateTimeKind.Local).AddTicks(8450),
+                            Description = "Very Magnificiant Tennis Club with a lot of blabla and blabla",
+                            ImageUrl = "",
+                            Latitude = 40.880651,
+                            Longitude = 29.061132000000001,
+                            Name = "Burgazada Tennis Club",
+                            ShortDescription = "Greatest Tennis Club of the World",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedDate = new DateTime(2019, 7, 13, 11, 19, 10, 228, DateTimeKind.Local).AddTicks(8453),
+                            Description = "Very Magnificiant Tennis Club with a lot of blabla and blabla",
+                            ImageUrl = "",
+                            Latitude = 40.958429000000002,
+                            Longitude = 29.081837,
+                            Name = "Suadiye Tennis Club",
+                            ShortDescription = "Greatest Tennis Club of the World",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedDate = new DateTime(2019, 7, 13, 11, 19, 10, 228, DateTimeKind.Local).AddTicks(8456),
+                            Description = "Very Magnificiant Tennis Club with a lot of blabla and blabla",
+                            ImageUrl = "",
+                            Latitude = 40.991616999999998,
+                            Longitude = 29.025068999999998,
+                            Name = "Kadıköy Tennis Club",
+                            ShortDescription = "Greatest Tennis Club of the World",
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("App1.Models.PlayerSpot", b =>

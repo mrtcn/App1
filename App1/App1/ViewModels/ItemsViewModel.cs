@@ -7,25 +7,29 @@ using Xamarin.Forms;
 
 using App1.Models;
 using App1.Views;
+using Xamarin.Forms.Maps;
 
 namespace App1.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
         public ObservableCollection<Location> Items { get; set; }
+        public ObservableCollection<Location> MapItems { get; set; }
         public Command LoadItemsCommand { get; set; }
 
         public ItemsViewModel()
         {
-            Title = "Browse";
+            Title = "Kortlar";
             Items = new ObservableCollection<Location>();
+            MapItems = new ObservableCollection<Location>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             MessagingCenter.Subscribe<NewItemPage, Location>(this, "AddItem", async (obj, item) =>
             {
                 var newItem = item as Location;
                 Items.Add(newItem);
-                await DataStore.AddItemAsync(newItem);
+                MapItems.Add(newItem);
+                await LocationDataStore.AddItemAsync(newItem);
             });
         }
 
@@ -39,10 +43,23 @@ namespace App1.ViewModels
             try
             {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
+                var items = await LocationDataStore.GetItemsAsync(true);
                 foreach (var item in items)
                 {
                     Items.Add(item);
+                }
+
+                foreach (var locationItem in Items)
+                {
+                    try
+                    {
+                        MapItems.Add(locationItem);
+                    }
+                    catch (Exception ex)
+                    {
+
+                        continue;
+                    }
                 }
             }
             catch (Exception ex)

@@ -8,6 +8,7 @@ namespace App1.Spot.Services.Interfaces
 {
     public interface ISpotService : IEntityServiceBase<SpotEntity>
     {
-        List<SpotEntityParams> GetSpotList(string userId, CoordinateModel coordinateModel);
+        List<SpotEntityParams> GetSpotList(CoordinateModel coordinateModel);
+        IEnumerable<PlayerEntityParams> FollowingPlayers(int id);
     }
 }

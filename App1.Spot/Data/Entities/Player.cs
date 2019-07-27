@@ -9,9 +9,10 @@ namespace App1.Models
     public interface IPlayer : IEntity, IHasStatus, IDateOperationFields
     {
         string UserId { get; set; }
-        string Name { get; set; }
-        string Surname { get; set; }
-        string ImageUrl { get; set; }
+        String FirstName { get; set; }
+        String LastName { get; set; }
+        String Nickname { get; set; }
+        String PictureUrl { get; set; }
         double Latitude { get; set; }
         double Longitude { get; set; }
     }
@@ -20,9 +21,10 @@ namespace App1.Models
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string ImageUrl { get; set; }
+        public String FirstName { get; set; }
+        public String LastName { get; set; }
+        public String Nickname { get; set; }
+        public String PictureUrl { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 

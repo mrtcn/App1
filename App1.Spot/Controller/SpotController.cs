@@ -39,15 +39,40 @@ namespace App1.Spot
         [HttpPost]
         [Authorize]
         [Route("spots")]
-        public async Task<IActionResult> Spots([FromBody]CoordinateModel model)
+        public IActionResult Spots([FromBody]CoordinateModel model)
+        {
+            var spotEntityParamsList = _spotService.GetSpotList(model);
+            var spotListViewModel = _mapper.Map<List<SpotEntityParams>, List<SpotListViewModel>>(spotEntityParamsList);
+
+            return Ok(spotListViewModel);
+        }
+
+        // POST api/<controller>
+        [HttpPost]
+        [Authorize]
+        [Route("FollowingPlayers")]
+        public IActionResult FollowingPlayers([FromBody]int spotId)
+        {
+            var followingPlayers = _spotService.FollowingPlayers(spotId);
+
+            return Ok(followingPlayers);
+        }
+
+        // POST api/<controller>
+        [HttpPost]
+        [Authorize]
+        [Route("FollowSpot")]
+        public async Task<IActionResult> FollowSpot([FromBody]FollowSpotViewModel model)
         {
             var accessToken = HttpContext.Request.Headers["Authorization"].ToString().GetAccessTokenFromHeaderString();
             var userId = await _identityService.GetUserId(accessToken);
 
-            var spotEntityParamsList = _spotService.GetSpotList(userId, model);
-            var spotListViewModel = _mapper.Map< List<SpotEntityParams>, List<SpotListViewModel>>(spotEntityParamsList);
+            var result = await _playerService.AddPlayerSpot(userId, model.SpotId);
 
-            return Ok(spotListViewModel);
+            if(result)
+                return Ok(new { IsSuccess = true });
+
+            return BadRequest(new { IsSuccess = false });
         }
 
         [HttpPost]

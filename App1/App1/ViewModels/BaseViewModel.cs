@@ -12,7 +12,8 @@ namespace App1.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Location> DataStore => DependencyService.Get<IDataStore<Location>>() ?? new MockLocationDataStore();
+        public IDataStore<Location> LocationDataStore => DependencyService.Get<IDataStore<Location>>() ?? new LocationDataStore();
+        public IDataStore<Player> PlayerDataStore => DependencyService.Get<IDataStore<Player>>() ?? new PlayerDataStore();
 
         bool isBusy = false;
         public bool IsBusy

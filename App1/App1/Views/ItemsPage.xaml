@@ -13,7 +13,18 @@
     <StackLayout>
         <maps:Map WidthRequest="320" HeightRequest="200"
                   x:Name="MyMap"
-                  MapType="Street" />
+                  MapType="Street"
+                  ItemsSource="{Binding MapItems}">
+            <maps:Map.ItemTemplate>
+                <DataTemplate>
+                    <maps:Pin Position="{Binding Pin.Position}"
+                              Address="{Binding Pin.Address}"
+                              Label="{Binding Pin.Label}"
+                              ClassId="{Binding Pin.ClassId}"
+                              Clicked="NavigateToLocation"/>
+                </DataTemplate>
+            </maps:Map.ItemTemplate>
+        </maps:Map>
         <local:FacebookLoginButton
                 Margin="20,0"
                 OnSuccess="{Binding OnFacebookLoginSuccessCmd}"
@@ -36,7 +47,7 @@
                                 LineBreakMode="NoWrap" 
                                 Style="{DynamicResource ListItemTextStyle}" 
                                 FontSize="16" />
-                            <Label Text="{Binding ShortDescription}" 
+                            <Label Text="{Binding Pin.Address}" 
                                 LineBreakMode="NoWrap"
                                 Style="{DynamicResource ListItemDetailTextStyle}"
                                 FontSize="13" />

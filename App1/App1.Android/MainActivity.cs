@@ -10,6 +10,8 @@ using Java.Security;
 using Android.Util;
 using static Android.Content.PM.PackageManager;
 using Java.Lang;
+using DLToolkit.Forms.Controls;
+using FFImageLoading.Forms.Platform;
 
 namespace App1.Droid
 {
@@ -25,6 +27,7 @@ namespace App1.Droid
 
             // Create callback manager using CallbackManagerFactory
             CallbackManager = CallbackManagerFactory.Create();
+            CachedImageRenderer.Init(enableFastRenderer: true);
 
             base.OnCreate(savedInstanceState);
 
@@ -33,6 +36,7 @@ namespace App1.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Xamarin.FormsMaps.Init(this, savedInstanceState);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
+            //LoadApplication(new App(Services.SharedInstance));
 
             try
             {
