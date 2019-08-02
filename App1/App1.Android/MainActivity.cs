@@ -12,6 +12,7 @@ using static Android.Content.PM.PackageManager;
 using Java.Lang;
 using DLToolkit.Forms.Controls;
 using FFImageLoading.Forms.Platform;
+using App1.Droid.Services;
 
 namespace App1.Droid
 {
@@ -30,6 +31,7 @@ namespace App1.Droid
             CachedImageRenderer.Init(enableFastRenderer: true);
 
             base.OnCreate(savedInstanceState);
+            CachedImageRenderer.Init(enableFastRenderer: true);
 
             global::Xamarin.Forms.Forms.SetFlags("Shell_Experimental", "Visual_Experimental", "CollectionView_Experimental", "FastRenderers_Experimental");
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
@@ -66,20 +68,20 @@ namespace App1.Droid
     }
         
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
-            {
-                Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
-                base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            }
-
-            protected override void OnActivityResult(
-                int requestCode,
-                Result resultCode,
-                Intent data)
-            {
-                base.OnActivityResult(requestCode, resultCode, data);
-                CallbackManager.OnActivityResult(requestCode, Convert.ToInt32(resultCode),
-                    data);
-            }
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+        protected override void OnActivityResult(
+            int requestCode,
+            Result resultCode,
+            Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            MultiMediaPickerService.SharedInstance.OnActivityResult(requestCode, resultCode, data);
+            CallbackManager.OnActivityResult(requestCode, Convert.ToInt32(resultCode), data);
+        }
+    }
 }

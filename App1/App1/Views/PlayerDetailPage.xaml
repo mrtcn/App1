@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:App1.ViewModels"
              x:Class="App1.Views.PlayerDetailPage"
              xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
@@ -16,7 +17,9 @@
 
         <Button TextColor="White" BackgroundColor="Blue" Text="Select images from gallery" Command="{Binding SelectImagesCommand}"/>
         <Button TextColor="White" BackgroundColor="Blue" Text="Select videos from gallery" Command="{Binding SelectVideosCommand}"/>
-
+        <Button TextColor="DarkRed" BackgroundColor="Blue" Text="Take Profile Picture" Clicked="Camera_Clicked"/>
+        <Image x:Name="image"/>
+        
         <flv:FlowListView FlowColumnCount="3" x:Name="listItems" FlowItemsSource="{Binding Media}"
                         SeparatorVisibility="None"
                         HasUnevenRows="false" RowHeight="100" >

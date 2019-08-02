@@ -12,10 +12,11 @@ using Xamarin.Forms;
 
 namespace App1.ViewModels
 {
-    public class PlayerDetailViewModel : BaseViewModel
+    public class PlayerDetailViewModel : INotifyPropertyChanged
     {
         IMultiMediaPickerService _multiMediaPickerService;
 
+        public string Title { get; set; }
         public ObservableCollection<MediaFile> Media { get; set; }
         public ICommand SelectImagesCommand { get; set; }
         public ICommand SelectVideosCommand { get; set; }
@@ -33,7 +34,12 @@ namespace App1.ViewModels
                 if (hasPermission)
                 {
                     Media = new ObservableCollection<MediaFile>();
-                    await _multiMediaPickerService.PickPhotosAsync();
+                    var mediaFiles = await _multiMediaPickerService.PickPhotosAsync();
+
+                    foreach (var mediaFile in mediaFiles)
+                    {
+                        Media.Add(mediaFile);
+                    }
                 }
             });
 
@@ -44,9 +50,12 @@ namespace App1.ViewModels
                 {
 
                     Media = new ObservableCollection<MediaFile>();
+                    var mediaFiles = await _multiMediaPickerService.PickVideosAsync();
 
-                    await _multiMediaPickerService.PickVideosAsync();
-
+                    foreach (var mediaFile in mediaFiles)
+                    {
+                        Media.Add(mediaFile);
+                    }
                 }
             });
 

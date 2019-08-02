@@ -92,8 +92,10 @@ namespace App1.Droid.Services
                 var fileName = System.IO.Path.GetFileNameWithoutExtension(path);
                 var ext = System.IO.Path.GetExtension(path) ?? string.Empty;
                 MediaFileType mediaFileType = MediaFileType.Image;
+                var imageTypeName = Enum.GetName(typeof(MediaFileType), MediaFileType.Image).ToLowerInvariant();
+                var videoTypeName = Enum.GetName(typeof(MediaFileType), MediaFileType.Video).ToLowerInvariant();
 
-                if (type.StartsWith(Enum.GetName(typeof(MediaFileType), MediaFileType.Image), StringComparison.CurrentCultureIgnoreCase))
+                if (type.ToLower().StartsWith(imageTypeName, StringComparison.CurrentCultureIgnoreCase))
                 {
                     var fullImage = ImageHelpers.RotateImage(path, 1);
                     var thumbImage = ImageHelpers.RotateImage(path, 0.25f);
@@ -106,7 +108,7 @@ namespace App1.Droid.Services
                     File.WriteAllBytes(thumbnailImagePath, thumbImage);
 
                 }
-                else if (type.StartsWith(Enum.GetName(typeof(MediaFileType), MediaFileType.Video), StringComparison.CurrentCultureIgnoreCase))
+                else if (type.ToLowerInvariant().StartsWith(videoTypeName, StringComparison.CurrentCultureIgnoreCase))
                 {
                     fullPath = path;
                     var bitmap = ThumbnailUtils.CreateVideoThumbnail(path, ThumbnailKind.MiniKind);
